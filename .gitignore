@@ -1,0 +1,9 @@
+# IDEs
+.idea
+
+*.pem
+/db/*
+/www/*
+/tmp
+/compose.yml
+README.md
