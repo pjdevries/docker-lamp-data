@@ -7,3 +7,9 @@
 /tmp
 /compose.yml
 README.md
+
+!/db/mysql57
+/db/mysql57/*
+!/db/mysql57/config.yml
+
+/db_
