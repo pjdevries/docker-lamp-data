@@ -1,7 +1,7 @@
   mysql57:
     image: degobbis/mysql57-debian:latest
-    container_name: ${COMPOSE_PROJECT_NAME}_mysql57
-    hostname: mysql57
+    container_name: ${COMPOSE_PROJECT_NAME}_db
+    hostname: mysql
     volumes:
       - /home/pieter-jan/docker-lamp-data/db/mysql57:/var/lib/mysql
       - ${APP_BASEDIR:-${DOCKER_LAMP_BASEDIR}/data}/initDB:/docker-entrypoint-initdb.d
@@ -19,13 +19,35 @@
       net:
         ipv4_address: 172.16.238.8
 
+  mysql80:
+    image: degobbis/mysql80-debian:latest
+    container_name: ${COMPOSE_PROJECT_NAME}_mysql80
+    hostname: mysql80
+    volumes:
+      - ${DOCKER_LAMP_BASEDIR}/.config/db/mysql80/my.cnf:/etc/mysql/conf.d/xxx-docker-lamp.cnf
+      - /home/pieter-jan/docker-lamp-data/db/mysql80:/var/lib/mysql
+      - ${APP_BASEDIR:-${DOCKER_LAMP_BASEDIR}/data}/initMySQL80:/docker-entrypoint-initdb.d
+    environment:
+      TZ: ${MY_TZ:-UTC}
+      LC_ALL: ${MY_LOCALES:-en_GB.UTF-8}
+      LANG: ${MY_LOCALES:-en_GB.UTF-8}
+      MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD:-root}
+      APP_USER_ID: ${APP_USER_ID:-1000}
+      APP_GROUP_ID: ${APP_GROUP_ID:-1000}
+      INIT_DB_BY_SCRIPT: 1
+    ports:
+      - "33080:3306"
+    networks:
+      net:
+        ipv4_address: 172.16.238.81
+
   mariadb104:
     image: degobbis/mariadb104-alpine:latest
     container_name: ${COMPOSE_PROJECT_NAME}_mariadb104
     hostname: mariadb104
     volumes:
       - /home/pieter-jan/docker-lamp-data/db/mariadb104:/var/lib/mysql
-      - ${APP_BASEDIR:-${DOCKER_LAMP_BASEDIR}/data}/initDB2:/docker-entrypoint-initdb.d
+      - ${APP_BASEDIR:-${DOCKER_LAMP_BASEDIR}/data}/initMariaDB104:/docker-entrypoint-initdb.d
     environment:
       TZ: ${MY_TZ:-UTC}
       LC_ALL: ${MY_LOCALES:-en_GB.UTF-8}
@@ -38,3 +60,24 @@
     networks:
       net:
         ipv4_address: 172.16.238.82
+
+  mariadb106:
+    image: degobbis/mariadb106-alpine:latest
+    container_name: ${COMPOSE_PROJECT_NAME}_mariadb106
+    hostname: mariadb106
+    volumes:
+      - /home/pieter-jan/docker-lamp-data/db/mariadb106:/var/lib/mysql
+      - ${APP_BASEDIR:-${DOCKER_LAMP_BASEDIR}/data}/initMariaDB106:/docker-entrypoint-initdb.d
+    environment:
+      TZ: ${MY_TZ:-UTC}
+      LC_ALL: ${MY_LOCALES:-en_GB.UTF-8}
+      MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD:-root}
+      APP_USER_ID: ${APP_USER_ID:-1000}
+      APP_GROUP_ID: ${APP_GROUP_ID:-1000}
+      INIT_DB_BY_SCRIPT: 1
+    ports:
+      - "33106:3306"
+    networks:
+      net:
+        ipv4_address: 172.16.238.84
+
